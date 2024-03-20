@@ -1,0 +1,16 @@
+# This service will connect backend deployment redis with frontend app
+# deployment and retain the votes cast by voters using voting portal.
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: redis
+    namespace: vote
+spec:
+    type: ClusterIP
+    ports:
+      - port: 6379
+        targetPort: 6379
+    selector:
+      app: redis-deployment-pod
+

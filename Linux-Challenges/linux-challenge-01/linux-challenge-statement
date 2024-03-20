@@ -1,0 +1,16 @@
+# Question: The database server called centos-host is running short on space! You have been asked to add an LVM volume for the Database team using some of the existing disks on this server.
+
+# Challenge details
+  
+  Install the correct packages that will allow the use of "lvm" on the centos machine.
+  Create a Physical Volume for "/dev/vdb" & "/dev/vdc"
+  Create a volume group called "dba_storage" using the physical volumes "/dev/vdb" and "/dev/vdc"
+  Create an "lvm" called "volume_1" from the volume group called "dba_storage".Make use of the entire space available in the volume group.
+  Format the lvm volume "volume_1" as an "XFS" filesystem
+  Mount the filesystem at the path "/mnt/dba_storage".
+  Make sure that this mount point is persistent across reboots with the correct default options.
+  Create a group called "dba_users" and add the user called 'bob' to this group
+  Ensure that the mountpoint "/mnt/dba_storage" has the group ownership set to the "dba_users" group
+  Ensure that the mount point "/mnt/dba_storage" has "read/write" and execute permissions for the owner and group and no permissions for anyone else
+
+

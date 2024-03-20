@@ -1,0 +1,35 @@
+#As mentioned in this problem, 2-Node Kubernetes cluster is broken! 
+#we need to troubleshoot, fix the cluster issues and then deploy the 
+#objects according to the given architecture diagram to unlock our 
+#Image Gallery!!
+
+#First, we are not being able to communicate with kubernetes cluster 
+#using client kubectl due to wrong server port.As such our first job
+#will be changing the current server port in the config file using sed
+#
+#Now,let's check the current port
+cat /root/.kube/config | grep server
+#We will get the following out after running above command
+server: https://controlplane:6433
+#Now, let's change the port
+sed -i 's/6333/6443/g' /root/.kube/config
+
+#Second, we need to update the static pod of the kube-apiserver as the
+#file referenced by the --client-ca-file argument to the API server 
+#doesn't exist.We need to edit the API server manifest(static pod) 
+#and correct this.
+
+vi /etc/kubernetes/manifests/kube-apiserver.yaml
+
+#Once, kubectl able to communicate with kubernetes cluster we need to
+#edit coredns deployment image as mentioned in the problem.
+
+kubectl edit deployment coredns -n kube-system
+
+# Lastly, we need to uncordon the disabled worker node as mentioned in the
+# problem.
+
+kubectl uncordon node01
+
+
+

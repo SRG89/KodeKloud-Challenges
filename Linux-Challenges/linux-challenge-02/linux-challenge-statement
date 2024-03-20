@@ -1,0 +1,14 @@
+# Question: The app server called centos-host is running a Go app on the 8081 port.You have been asked to troubleshoot some issues with yum/dnf on this system.
+#           Install Nginx server, configure Nginx as a reverse proxy for this Go app, install firewalld package and then configure some firewall rules.
+#
+# Challenge deatails:
+  
+  Configure Nginx as a reverse proxy for the GoApp so that we can access the GoApp on port "80
+  Start and Enable "nginx" service.
+  Start GoApp by running the "nohup go run main.go &" command from "/home/bob/go-app/" directory, it can take few seconds to start.
+  Install "nginx" package.
+  Install "firewalld" package.
+  Troubleshoot the issues with "yum/dnf" and make sure you are able to install the packages on "centos-host"
+  Start and Enable "firewalld" service
+  Add firewall rules to allow only incoming port "22", "80" and "8081".
+  The firewall rules must be permanent and effective immediately.

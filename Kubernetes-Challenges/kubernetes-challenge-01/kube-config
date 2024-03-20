@@ -1,0 +1,8 @@
+# Build user information for martin in the default kubeconfig file: User = martin , client-key = /root/martin.key and client-certificate = /root/martin.crt
+
+kubectl config set-credentials martin --client-certificate /root/martin.crt --client-key /root/martin.key
+
+# Create a new context called 'developer' in the default kubeconfig file with 'user = martin' and 'cluster = kubernetes'
+
+kubectl config set-context developer --cluster kubernetes --user martin
+kubectl config use-context developer

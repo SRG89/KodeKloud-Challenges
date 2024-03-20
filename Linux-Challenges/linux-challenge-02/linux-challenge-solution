@@ -1,0 +1,36 @@
+#Switch to the root user to complete task
+sudo su -
+## change the permission of resolv.conf file
+chmod 777 /etc/resolv.conf
+## Fix dnf DNS errors by adding google nameserver
+## Edit resolf.conf file to add following content
+nameserver 8.8.8.8
+## Once the DNS error is resolved install
+## packages as instructed in task
+dnf install -y nginx firewalld
+## check the state of firewalld
+firewall-cmd --state
+# Start and Enable "firewalld" service.
+systemctl enable firewalld && systemctl start firewalld
+# Add firewall rules to allow only 
+# incoming port "22", "80" and "8081"
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --zone=public --add-port=8081/tcp --permanent
+firewall-cmd --zone=public --add-port=22/tcp --permanent
+firewall-cmd --reload
+# Start GoApp by running the "nohup go run main.go &" 
+# command from "/home/bob/go-app/" directory
+cd /home/bob/go-app
+nohup go run main.go &
+# Configure Nginx as a reverse proxy for the GoApp so that 
+# we can access the GoApp on port "80"
+# Do this by inserting a proxy_pass line in available location / 
+# at line 48
+sed -i '48i\   proxy_pass  http://localhost:8081;' /etc/nginx/nginx.conf
+# Start nginx
+systemctl enable nginx && systemctl start nginx
+# try to access the content using curl
+curl http://localhost:80
+
+
+

@@ -1,0 +1,32 @@
+# We can manifest the yaml file for this backend deployment
+#
+#kubectl create deploy redis-deployment --image=redis:alpine -n vote
+#--dry-run=client -o yaml > redis.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis-deployment
+  name: redis-deployment
+  namespace: vote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-deployment-pod
+  template:
+    metadata:
+      labels:
+        app: redis-deployment-pod
+    spec:
+      volumes:
+      - name: redis-data
+        emptyDir: {}
+      containers:
+      - image: redis:alpine
+        name: redis-deployment
+        volumeMounts:
+        - mountPath: /data
+          name: redis-data
+

@@ -1,0 +1,25 @@
+# Since building redis cluster involve stateful application, we need to create 
+# directories on remote host for each persisent volume and each instances of 
+# stateful application
+
+#First check the available worker node in kubernetes cluster
+
+kubectl get nodes -o wide
+
+#We have node01 as working node.As such, we need to access worker node
+
+ssh node01
+
+# Within node01 we have to create six working directories 
+
+for i in $(seq 1 6) ; do mkdir -p "/redis0$i"; done
+
+# verify working directories in worker node
+
+ls -ld /redis*
+
+# exit the worker node with "exit" command
+
+
+
+

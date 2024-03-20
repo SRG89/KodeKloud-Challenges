@@ -1,0 +1,58 @@
+# Question : Deploy the given architecture to vote namespace
+
+# 1. Create a  service: name = vote-service
+
+     port = '5000'
+     targetPort = '80'
+     nodePort= '31000'
+     service endpoint exposes deployment 'vote-deployment'
+
+# 2. Create a deployment: name = 'vote-deployment'
+
+     image = 'kodekloud/examplevotingapp_vote:before'
+     status: 'Running'
+
+# 3. New Service, name = 'redis'
+
+     port: '6379'
+     targetPort: '6379'
+     type: 'ClusterIP'
+     service endpoint exposes deployment 'redis-deployment'
+
+# 4. Create new deployment, name: 'redis-deployment'
+
+     image: 'redis:alpine'
+     Volume Type: 'EmptyDir'
+     Volume Name: 'redis-data'
+     mountPath: '/data'
+     status: 'Running'
+
+# 5. Create new deployment. name: 'worker'
+
+     image: 'kodekloud/examplevotingapp_worker'
+     status: 'Running'
+
+# 6. Create new service: 'db'
+
+     port: '5432'
+     targetPort: '5432'
+     type: 'ClusterIP'
+
+# 7. Create new deployment. name: 'db-deployment'
+
+     image: 'postgres:9.4' and add the env: 'POSTGRES_HOST_AUTH_METHOD=trust'
+     Volume Type: 'EmptyDir'
+     Volume Name: 'db-data'
+     mountPath: '/var/lib/postgresql/data'
+     status: 'Running'
+
+# 8. Create new deployment, name: 'result-deployment'
+
+     image: 'kodekloud/examplevotingapp_result:before'
+     status: 'Running'
+
+# 9. Create new service, name: 'result-service'
+ 
+    port: '5001'
+    targetPort: '80'
+    NodePort: '31001

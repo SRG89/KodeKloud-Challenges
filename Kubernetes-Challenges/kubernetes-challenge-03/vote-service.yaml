@@ -1,0 +1,17 @@
+# vote-service is Nodeport type service which will help the voters to 
+# access the voting app portal and cast their vote
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: vote-service
+   namespace: vote
+spec:
+   type: NodePort
+   ports:
+    - port: 5000
+      targetPort: 80
+      nodePort: 31000
+   selector:
+    app: vote-deployment-pod
+

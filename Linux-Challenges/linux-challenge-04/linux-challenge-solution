@@ -1,0 +1,55 @@
+# Swith to the root user to complete tasks
+sudo su -
+
+# create directory as instructed in challenge
+mkdir -p /opt/appdata/hidden
+mkdir -p /opt/appdata/files
+
+# Find and copy hidden files as intructed in task
+find /home/bob/preserved -type f -name ".*" -exec cp "{}" /opt/appdata/hidden/ \;
+
+# Find and copy non-hidden files as instructed in task
+find /home/bob/preserved -type f -not -name ".*" -exec cp "{}" /opt/appdata/files/ \;
+
+#  Find and delete all files with words ending in 't'
+rm -f $(find /opt/appdata/ -type f  -exec grep -l 't\>' "{}"  \; )
+
+# Change all the occurrences of the word "yes" to "no" in all files
+find /opt/appdata -type f -name "*" -exec sed -i 's/\byes\b/no/g' "{}" \;
+
+# Change all the occurrences of the word "raw" to "processed"
+find /opt/appdata -type f -name "*" -exec sed -i 's/\braw\b/processed/ig' "{}" \;
+
+# Create a "tar.gz" archive of "/opt/appdata" directory and save the 
+# archive to this file: "/opt/appdata.tar.gz"
+tar -zcf /opt/appdata.tar.gz /opt/appdata
+# Edit the ownership of arhive of /opt/appdata directory as well as
+# file permissions
+chown bob:bob /opt/appdata.tar.gz
+chmod 440 /opt/appdata.tar.gz
+# Add Sticky bit permission to restrict file deletion
+chmod +t /opt/appdata
+# Create a "softlink" for the archive file
+ln -s /opt/appdata.tar.gz /home/bob/appdata.tar.gz
+
+# Create a script file to filter and copy 'processed' keyword
+
+vi /home/bob/filter.sh
+cat /home/bob/filter.sh
+#----------------------------------------------------------------------
+#
+#Content of script file
+#
+#
+#!/bin/bash
+tar -xzOf /opt/appdata.tar.gz | grep processed > /home/bob/filtered.txt
+#
+#------------------------------------------------------------------------
+# Make the script file executable
+chmod +x /home/bob/filter.sh
+# Execute script file
+bash /home/bob/filter.sh
+# Check the content of filter.txt file
+cat /home/bob.filtered.txt 
+
+

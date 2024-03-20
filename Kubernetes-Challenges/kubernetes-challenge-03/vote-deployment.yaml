@@ -1,0 +1,31 @@
+# For simplicity we can manifest the yaml file using following command
+#
+# kubectl create deploy vote-deployment --image=kodekloud/examplevotingapp_vote
+# :before -n vote --dry-run=client -o yaml > vote.yaml
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: vote-deployment
+  name: vote-deployment
+  namespace: vote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vote-deployment-pod
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: vote-deployment-pod
+    spec:
+      containers:
+      - image: kodekloud/examplevotingapp_vote:before
+        name: vote
+        resources: {}
+

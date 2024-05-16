@@ -1,4 +1,5 @@
-# Challenge: 
+# Challenge-01:
+
   Deploy the given architecture diagram for implementing a Jekyll SSG.
 
   <img src="../challenge-01.png" alt="">

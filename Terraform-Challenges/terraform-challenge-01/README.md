@@ -4,6 +4,8 @@ We will Utilize /root/terraform_challenge directory to store our Terraform confi
 
 Inspect the requirements in detail by clicking on the icons of the interactive architecture diagram on the right and complete the tasks.
 
+<img src="./challenge-01.png" alt="">
+
 # 1. Terraform Installation: 
   - Check if Terraform version: 1.1.5 is installed on controlplane node
 

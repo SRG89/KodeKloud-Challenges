@@ -1,5 +1,7 @@
 # Challenge: 
   Deploy the given architecture diagram for implementing a Jekyll SSG.
+
+  <img src="../challenge-01.png" alt="">
   
 # 1. Jekyll-site PV: 
   Physical Volume is already created. Inspect it before you create the pvc.

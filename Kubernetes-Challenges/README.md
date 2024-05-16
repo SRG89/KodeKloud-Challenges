@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="./kodekloud.svg" alt="" srcset="">
+</p
+
 # Kodekloud Kubernetes Challenges
 
 This repository consist of solutions for all kubernetes challenges from KodeKloud.

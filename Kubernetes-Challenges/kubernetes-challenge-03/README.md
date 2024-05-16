@@ -1,11 +1,12 @@
 # Challenge-03: 
-  
+
   Deploy the given architecture Within vote namespace to deploy voting application.
+
 
   <img src="../challenge-03.png" alt="">
   
 # 1. Create First Service: 
-    - name = vote-service
+    - name = 'vote-service'
     - port = '5000'
     - targetPort = '80'
     - nodePort= '31000'

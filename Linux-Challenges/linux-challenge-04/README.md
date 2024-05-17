@@ -2,7 +2,7 @@
 
 Some of our apps generate some raw data and store the same in /home/bob/preserved directory. For this challenge do the following:
 - Clean and manipulate some data
-- create an archive of that data.
+- Create an archive of that data.
 
 Architecture Diagram:
 
@@ -119,7 +119,7 @@ ln -s /opt/appdata.tar.gz /home/bob/appdata.tar.gz
 ### Create Script File
 
 <details>
-<summary>Create a script called "/home/bob/filter.sh".<br>The script should filter the lines from "/opt/appdata.tar.gz" file which contain the word "processed", and save the filtered output in "/home/bob/filtered.txt" file. It must "overwrite" the existing contents of "/home/bob/filtered.txt" file.</summary>
+<summary>Create a script called "/home/bob/filter.sh".<br>The script should filter the lines from "/opt/appdata.tar.gz" file which contain the word "processed", and save the filtered output in "/home/bob/filtered.txt" file.</summary>
 
 ```bash
 vi /home/bob/filter.sh

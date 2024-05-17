@@ -65,7 +65,7 @@ passwd natasha
 Enter the given password and confirm it.
 </details>
 
-### Create Group Dev
+### Create Group Devs
 
 <details>
 <summary>Create a group called "devs".</summary>
@@ -182,12 +182,11 @@ Enter the following line at the end of the file and save
 ### Set Resource Limit
 
 <details>
-<summary>Configure a "resource limit" for the "devs" group so that this group (members of the group) can not run more than "30 processes" in their session. This should be both a "hard limit" and a "soft limit", written in a single line.</summary>
+<summary>Configure a "resource limit" for the "devs" group so that members of this group can not run more than "30 processes" in their session. This should be both a "hard limit" and a "soft limit", written in a single line.</summary>
 
 ```bash
 vi /etc/security/limits.conf
 ```
-
 Enter the following line at the end of the file and save
 
 ```

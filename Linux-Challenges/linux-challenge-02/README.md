@@ -14,7 +14,7 @@ Run all the command with root user privilege. Do the following:
 ```bash
 sudo su -
 ```
-# Detailed Solution Script
+# Solution Steps
 
 ### DNS Resolution
 
@@ -26,7 +26,6 @@ Since package manager dnf/yum not able to install a required packages we need to
 ```bash
 vi /etc/resolv.conf
 ```
-
 Add Google nameserver as the first line in the file and save
 
 ```
@@ -55,10 +54,8 @@ systemctl start firewalld && systemctl enable firewalld
 ```
 </details>
 
-Add firewall rules to allow incoming traffic for ports 22, 80 and 8081
-
 <details>
-<summary>Add firewall rules, make permanent and effective.</summary>
+<summary>Add firewall rules to allow incoming traffic for ports 22, 80 and 8081.</summary>
 
 ```bash
 firewall-cmd --zone=public --add-port=22/tcp --permanent
@@ -68,10 +65,10 @@ firewall-cmd --reload
 ```
 </details>
 
-### Run Go Application in the background
+### Run GoApp in the background
 
 <details>
-<summary>Run Go App</summary>
+<summary>Run GoApp</summary>
 
 ```bash
 nohup go run ~/go-app/main.go &

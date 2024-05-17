@@ -1,31 +1,17 @@
 # Linux Challenge-01
 
+
 The database server called centos-host is running short on space! You have been asked to add an LVM volume for the Database team using some of the existing disks on this server.
 
-All the tasks require you to be root, so the first step is to become root
+Run all the command being root user. Do the following
 
 ```bash
-sudo -i
+sudo su -
 ```
 
-# Individual Steps
+#  Solution Steps Along with solution script
 
-### Linux Server
-
-Install the correct packages that will allow the use of "lvm" on the centos machine.
-
-First we need to discover what the correct package is that needs to be installed. A google search will lead you to `lvm2`
-
-<details>
-<summary>Install package</summary>
-
-```bash
-yum install -y lvm2
-```
-</details>
-
-
-### dba_users
+### Group creation and addition of existing user 
 
 <details>
 <summary>Create a group called "dba_users" and add the user called 'bob' to this group</summary>
@@ -43,7 +29,21 @@ usermod -G dba_users bob
 ```
 </details>
 
-### /dev/vdb
+### Linux Server
+
+Install the correct packages that will allow the use of "lvm" on the centos machine.
+
+Discover what correct logical volume manager package need to to be installed, then run the foloowing:
+
+<details>
+<summary>Install package</summary>
+
+```bash
+yum install -y lvm2
+```
+</details>
+
+### Physical Volume for block device /dev/vdb
 
 <details>
 <summary>Create a Physical Volume for "/dev/vdb"</summary>
@@ -53,7 +53,7 @@ pvcreate /dev/vdb
 ```
 </details>
 
-### /dev/vdc
+### Physical Volume for block device /dev/vdc
 
 <details>
 <summary>Create a Physical Volume for "/dev/vdc"</summary>
@@ -63,7 +63,7 @@ pvcreate /dev/vdc
 ```
 </details>
 
-### volume-group
+### Creation of volume-group dba_storage
 
 <details>
 <summary>Create a volume group called "dba_storage" using the physical volumes "/dev/vdb" and "/dev/vdc"</summary>
@@ -73,50 +73,49 @@ vgcreate dba_storage /dev/vdb /dev/vdc
 ```
 </details>
 
-### lvm
+### Creation of logical volume with volume group dba_storage
 
 <details>
 <summary>Create an "lvm" called "volume_1" from the volume group called "dba_storage". Make use of the entire space available in the volume group.</summary>
 
 ```bash
-lvcreate -n volume_1 -l 100%FREE dba_storage
+lvcreate -l +100%FREE -n volume_1 dba_storage
 ```
 </details>
 
-### persistent-mountpoint
+### Formatting Logical Volume 
 
 <details>
 <summary>Format the lvm volume "volume_1" as an "XFS" filesystem</summary>
 
 ```bash
-mkfs.xfs /dev/dba_storage/volume_1
+mkfs.xfs /dev/mapper/dba_storage-volume_1
 ```
 </details>
 
 <details>
-<summary>Mount the filesystem at the path "/mnt/dba_storage".</summary>
+<summary>Create new directory /mnt/dba_storage and mount the filesystem at that path.</summary>
 
 ```bash
 mkdir -p /mnt/dba_storage
-mount -t xfs /dev/dba_storage/volume_1 /mnt/dba_storage
+mount /dev/mapper/dba_storage-volume_1 /mnt/dba_storage
 ```
 </details>
 
 <details>
-<summary>Make sure that this mount point is persistent across reboots with the correct default options.</summary>
+<summary>Format file system table to make sure that this mount point is persistent across reboots with the correct default options.</summary>
 
 ```bash
 vi /etc/fstab
 ```
-
-Add the following line to the end of the file and save.
+Add the following line within the fstab and save it.
 
 ```
 /dev/mapper/dba_storage-volume_1 /mnt/dba_storage xfs defaults 0 0
 ```
 </details>
 
-### group-permission
+### Update Group Permission
 
 <details>
 <summary>Ensure that the mountpoint "/mnt/dba_storage" has the group ownership set to the "dba_users" group</summary>
@@ -132,67 +131,4 @@ chown :dba_users /mnt/dba_storage
 ```bash
 chmod 770 /mnt/dba_storage
 ```
-</details>
-
-# Automate the entire lab in a single script!
-
-Pretty much everything done above, in the same order. We automate the `vi` step by using the append redirection to `/etc/fstab`
-
-<details>
-<summary>Single Script Automation</summary>
-
-First, become root
-
-```bash
-sudo -i
-```
-
-Then
-
-
-```bash
-{
-# Paste this entire script to the command prompt.
-# When it completes, press the check button.
-
-## Install lvm
-
-yum install -y lvm2
-
-## dba_users
-
-# Create group
-groupadd dba_users
-# Add bob
-usermod -G dba_users bob
-
-## Create PVs
-
-pvcreate /dev/vdb
-pvcreate /dev/vdc
-
-## Create VG
-
-vgcreate dba_storage /dev/vdb /dev/vdc
-
-## Create LVM
-
-lvcreate -n volume_1 -l 100%FREE dba_storage
-
-## Persistent mountpoint
-
-# Format
-mkfs.xfs /dev/dba_storage/volume_1
-# Mount
-mkdir -p /mnt/dba_storage
-mount -t xfs /dev/dba_storage/volume_1 /mnt/dba_storage
-# Make persistent
-echo "/dev/mapper/dba_storage-volume_1 /mnt/dba_storage xfs defaults 0 0" >> /etc/fstab
-# Ensure that the mountpoint "/mnt/dba_storage" has the group ownership set to the "dba_users" group
-chown :dba_users /mnt/dba_storage
-# Ensure that the mount point "/mnt/dba_storage" has "read/write" and execute permissions for the owner and group and no permissions for anyone else.
-chmod 770 /mnt/dba_storage
-}
-```
-
 </details>

@@ -2,9 +2,7 @@
     <img src="../Kubernetes-Challenges/kodekloud.svg" alt="" srcset="">
 </p
 
-
-
-# Kodekloud Kubernetes Challenges:
+# Kodekloud Linux Challenges:
 
 This repository consist of solutions for all linux challenges from KodeKloud.
 

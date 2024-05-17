@@ -4,7 +4,7 @@
 The database server called centos-host is running short on space! You have been asked to add an LVM volume for the Database team using some of the existing disks on this server.Below is the 
 architecture diagram:
 
-<img src="./challenge-01.png" alt="">
+<img src="./linux-challenge-01.png" alt="">
 
 Run all the command being root user. Do the following
 

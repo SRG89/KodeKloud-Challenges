@@ -12,7 +12,7 @@ Run all the command being root user. Do the following
 sudo su -
 ```
 
-#  Solution Steps Along with solution script
+#  Solution Steps
 
 ### Group creation and addition of existing user 
 

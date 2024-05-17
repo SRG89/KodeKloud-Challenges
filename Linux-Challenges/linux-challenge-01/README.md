@@ -17,7 +17,7 @@ sudo su -
 ### Group creation and addition of existing user 
 
 <details>
-<summary>Create a group called "dba_users" and add the user called 'bob' to this group</summary>
+<summary>Create a group called 'dba_users' and add the user called 'bob' to this group</summary>
 
 ```bash
 groupadd dba_users

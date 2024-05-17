@@ -16,7 +16,7 @@ Architecture Diagram:
 Run all tasks with root user privilege. Do the following
 
 ```bash
-sudo -i
+sudo su -
 ```
 
 ### DataBase Installation

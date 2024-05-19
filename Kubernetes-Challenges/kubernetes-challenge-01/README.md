@@ -5,44 +5,73 @@
   <img src="../challenge-01.png" alt="">
   
 # 1. Jekyll-site PV: 
-  Physical Volume is already created. Inspect it before you create the pvc.
+  Physical Volume is already created. Inspect it before creating the physical volume claim.
 
-# 2. Jekyll  pvc: 
-- Storage Request: 1Gi
-- Access modes: ReadWriteMany
-- pvc name = jekyll-site, namespace = development
-- jekyll-site' PVC should be bound to the PersistentVolume called 'jekyll-site'
+# 2. Create Physical Volume Claim: 
+<details>
+<summary>jekyll-pvc</summary>
 
-# 3. Jekyll pod:
+ Access the yaml file for physical volume claim [Here](./jekyll-pvc.yaml)
+</details>
 
-- pod: 'jekyll' has an initContainer, name: 'copy-jekyll-site', image: 'kodekloud/jekyll'
-- initContainer: 'copy-jekyll-site', command: [ "jekyll", "new", "/site" ] (command to run: jekyll new /site)
-- pod: 'jekyll', initContainer: 'copy-jekyll-site', mountPath = '/site'
-- pod: 'jekyll', initContainer: 'copy-jekyll-site', volume name = 'site'
-- pod: 'jekyll', container: 'jekyll', volume name = 'site'
-- pod: 'jekyll', container: 'jekyll', mountPath = '/site'
-- pod: 'jekyll', container: 'jekyll', image = 'kodekloud/jekyll-serve'
-- pod: 'jekyll', uses volume called 'site' with pvc = 'jekyll-site'
-- pod: 'jekyll' uses label 'run=jekyll'
+# 3. Create Kubernetes Resource Pod:
+<details>
+<summary>jekyll</summary>
 
-# 4.Jekyll  Services:
+Access the yaml file for kubernetes resource Pod [Here](./jekyll-pod.yaml)
 
-- Service 'jekyll' uses targetPort: '4000', namespace: 'development'
-- Service 'jekyll' uses Port: '8080', namespace: 'development'
-- Service 'jekyll' uses NodePort: '30097', namespace: 'development'
+The pod will take at least 30 seconds to initialize.
 
-# 5.Implement context 
-- set 'developer' with user = 'martin' and cluster = 'kubernetes' as the current context.
+</details>
 
-# 6.Developer-rolebinding:
-- create rolebinding = developer-rolebinding, role= 'developer-role', namespace = development
-- rolebinding = developer-rolebinding associated with user = 'martin'
+# 4.Create Kubernetes Node Service:
+<details>
+<summary>jekyll-node-service</summary>
 
-# 7.Developer-role: 
-- developer-role', should have all(*) permissions for services in development namespace
-- developer-role', should have all permissions(*) for persistentvolumeclaims in development namespace
-- developer-role', should have all(*) permissions for pods in development namespace
+Access the yaml file for kubernetes resource Node [Here](./jekyll-node-service.yaml)
+</details>
 
-# 8.User Martin:
-- Build user information for martin in the default kubeconfig file: User = martin, client-key = /root/martin.key and client-certificate = /root/martin.crt
-- Create a new context called 'developer' in the default kubeconfig file with 'user = martin' and 'cluster = kubernetes'
+# 5.Create Developer-role: 
+<details>
+<summary>developer-role</summary>
+</br>
+  
+```
+ kubectl create role developer-role --resource=pods,svc,pvc --verb="*" -n development
+
+```
+</br>--- OR ---</br></br>Access Yaml file to create role [Here](./developer-role.yaml)
+</details>
+
+# 6.Create Developer-rolebinding:
+<details>
+<summary>developer-rolebinding</summary>
+</br>
+  
+```
+    # Apply the following CLI command to create rolebinding
+    kubectl create rolebinding developer-rolebinding --role=developer-role --user=martin -n development
+    # Apply the following CLI command to manifest Yaml file for developer-rolebinding
+    kubectl create rolebinding developer-rolebinding --role=developer-role --user=martin -n development --dry-run=client -o yaml > rolebinding.yaml
+```
+</br>--- OR ---</br></br>Access the yaml file for kubernetes rolebinding [Here](./developer-rolebinding.yaml)
+</details>
+
+# 7.Implement Set Context:
+<details>
+<summary>kube-config</summary>
+
+```bash
+    kubectl config set-credentials martin --client-certificate ./martin.crt --client-key ./martin.key
+    kubectl config set-context developer --cluster kubernetes --user martin
+```
+</details>
+
+# 8.Implement Use Context
+<details>
+<summary>context</summary>
+
+```bash
+    kubectl config use-context developer
+```
+</details>
